@@ -2,7 +2,7 @@
 
 Adapted from https://github.com/jrwren/nepenthes (a mirror of `git://git.carnivore.it/nepenthes.git`, the project's own repository; releases on https://sourceforge.net/projects/nepenthes/) by Paul Baecher, Markus Koetter and Georg Wicherski (the Nepenthes development team).
 
-Nepenthes is a low-interaction honeypot that emulates known vulnerabilities in Windows services to collect self-propagating malware. This copy is the upstream code at its last commit (`03e96e6`, 16 October 2009, version 0.2.2) with only the changes needed to build it with a current compiler, plus two safety switches. The modules, responses and logs are unchanged. The original documentation is in `README`, `INSTALL` and `doc/`; the licence (GPL v2) is in `COPYING` and `LICENSE`.
+Nepenthes is a low-interaction honeypot that emulates known vulnerabilities in Windows services to collect self-propagating malware. This copy is the upstream code at its last commit (`03e96e6`, 16 October 2009, version 0.2.2) with only the changes needed to build and run it on a current 64-bit system, plus two safety switches. The modules, responses and logs are unchanged. The original documentation is in `README`, `INSTALL` and `doc/`; the licence (GPL v2) is in `COPYING` and `LICENSE`.
 
 ## Changes from upstream
 
@@ -12,6 +12,10 @@ Build (g++ 12 and later, current libcurl):
 - `-Werror` removed from every `Makefile.am`, so newer compiler warnings do not stop the build.
 - Missing `<sys/types.h>` and `<time.h>` includes added to `Nepenthes.hpp`, `SocketManager.hpp`, `EventHandler.hpp` and `Socket.hpp`.
 - `#include <curl/types.h>` removed (the header was dropped from libcurl in 2012).
+
+64-bit fix:
+
+- `vuln-ftpd` compared the USER, PASS and QUIT command names with `sizeof` of a pointer, which is 8 on 64-bit systems, so it never recognised them and answered every command with `530 You are not logged in`. It now uses `strlen`, as the 32-bit builds of 2009 effectively did, so USER gets `331` and long USER or PASS lines reach the shellcode handlers again.
 
 Safety switches (both off by default; set to `"1"` in `nepenthes.conf` to restore upstream behaviour):
 

@@ -240,7 +240,7 @@ ConsumeLevel FTPdDialogue::incomingData(Message *msg)
 			switch ( m_state )
 			{
 			case FTP_NULL:
-				if ( line.size () >  sizeof(cmd_user) && memcmp(line.c_str(), cmd_user, sizeof(cmd_user)) == 0 )
+				if ( line.size () >  strlen(cmd_user) && memcmp(line.c_str(), cmd_user, strlen(cmd_user)) == 0 )
 				{
 					//user has sent data starting with cmd_user
 					if ( line.size() > threshold )
@@ -287,7 +287,7 @@ ConsumeLevel FTPdDialogue::incomingData(Message *msg)
 
 
 			case FTP_USER:
-				if ( line.size () >  sizeof(cmd_pass) && memcmp(line.c_str(), cmd_pass, sizeof(cmd_pass)) == 0 )
+				if ( line.size () >  strlen(cmd_pass) && memcmp(line.c_str(), cmd_pass, strlen(cmd_pass)) == 0 )
 				{
 					//user has sent data starting with cmd_pass
 					if ( line.size() > threshold )
@@ -332,7 +332,7 @@ ConsumeLevel FTPdDialogue::incomingData(Message *msg)
 
 			case FTP_PASS:
 				// User gets server errors, if he is trying to do smthg
-				if ( line.size () >  sizeof(cmd_quit) && memcmp(line.c_str(), cmd_quit, sizeof(cmd_quit)) == 0 )
+				if ( line.size () >  strlen(cmd_quit) && memcmp(line.c_str(), cmd_quit, strlen(cmd_quit)) == 0 )
 				{
 					//user has sent data starting with cmd_quit
 					msg->getResponder()->doRespond(s_quit, strlen(s_quit));
