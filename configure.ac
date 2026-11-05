@@ -44,6 +44,8 @@ esac
 
 # Checks for programs.
 AC_PROG_CXX
+# nepenthes-nx: the code is C++98; current g++ defaults to C++17
+CXXFLAGS="$CXXFLAGS -std=gnu++98"
 AC_PROG_CC
 AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL

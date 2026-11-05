@@ -29,7 +29,6 @@
 
 
 #include <curl/curl.h>
-#include <curl/types.h> /* new for v7 */
 #include <curl/easy.h> /* new for v7 */
 
 #include "Module.hpp"

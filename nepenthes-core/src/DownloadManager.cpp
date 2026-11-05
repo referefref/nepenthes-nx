@@ -89,6 +89,18 @@ DownloadManager::~DownloadManager()
  */
 bool  DownloadManager::Init()
 {
+	// nepenthes-nx: downloads of attacker-supplied URLs are off unless
+	// nepenthes.downloadmanager.download_enabled is "1"
+	m_DownloadEnabled = false;
+	try
+	{
+		if ( m_Nepenthes->getConfig()->getValInt("nepenthes.downloadmanager.download_enabled") == 1 )
+			m_DownloadEnabled = true;
+	} catch ( ... )
+	{
+		logInfo("nepenthes.downloadmanager.download_enabled not set, downloads are disabled\n");
+	}
+	logInfo("Downloads are %s\n", m_DownloadEnabled ? "enabled" : "disabled (download_enabled = 0)");
 	logPF();
 	m_ReplaceLocalIps = false;
 	try
@@ -297,6 +309,13 @@ bool DownloadManager::isLocalAddress(uint32_t ulAddress)
  */
 bool DownloadManager::downloadUrl(Download *down)
 {
+	if ( m_DownloadEnabled == false )
+	{
+		uint32_t remote = down->getRemoteHost();
+		logInfo("Download disabled, not fetching %s (offered by %s)\n", down->getUrl().c_str(), inet_ntoa(*(in_addr *)&remote));
+		delete down;
+		return false;
+	}
 	if ( down->getDownloadUrl()->getPort() <= 0 || down->getDownloadUrl()->getPort() > 65536 )
 	{
 		logWarn("malformed url 0<port<65536  , %s \n",down->getUrl().c_str());

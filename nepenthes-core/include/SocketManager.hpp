@@ -32,6 +32,8 @@
 
 #include <list>
 #include <stdint.h>
+#include <sys/types.h>
+#include <time.h>
 
 #include "Manager.hpp"
 
@@ -72,6 +74,7 @@ namespace nepenthes
 		bool doLoop(uint32_t polltimeout);
 
 		bool Init();
+		virtual bool allowOutbound() { return m_AllowOutbound; }
 		bool Exit();
 		void doList();
 
@@ -79,6 +82,7 @@ namespace nepenthes
 		list<Socket *> 	m_Sockets;
         bool 			m_UseRawSockets;
 		uint32_t 		m_BindAddress;
+		bool 			m_AllowOutbound;
 	};
 
 }

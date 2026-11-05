@@ -95,6 +95,7 @@ namespace nepenthes
         list <DownloadHandlerTuple> m_DownloadHandlers;
 		static ip_range_t m_irLocalRanges[];
 		bool 	m_ReplaceLocalIps;
+		bool 	m_DownloadEnabled;
 	};
 
 }

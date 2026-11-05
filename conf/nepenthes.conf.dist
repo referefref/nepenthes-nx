@@ -110,6 +110,9 @@ nepenthes
     downloadmanager
     {
         replace_local_ips           "1";
+        // nepenthes-nx: "1" lets nepenthes fetch the URLs that attackers and
+        // shellcode supply (malware downloads). "0" (default) only logs them.
+        download_enabled            "0";
     };
 
     socketmanager
@@ -119,6 +122,11 @@ nepenthes
 
 	// specify "if:ethX" to get the ip from an interface at startup,
 	// only works on linux!
+
+        // nepenthes-nx: "1" allows outgoing connections (connect-back shells,
+        // downloads, submit-http/gotek/norman, log-irc). "0" (default) refuses them
+        // and logs the address instead.
+        allow_outbound              "0";
     };
     
     utilities

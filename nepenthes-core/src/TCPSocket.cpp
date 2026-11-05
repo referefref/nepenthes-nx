@@ -51,6 +51,7 @@
 #include "Message.hpp"
 #include "Dialogue.hpp"
 #include "Nepenthes.hpp"
+#include "SocketManager.hpp"
 #include "SocketEvent.hpp"
 #include "EventManager.hpp"
 #include "Nepenthes.hpp"
@@ -382,6 +383,14 @@ bool TCPSocket::Exit()
 
 bool TCPSocket::connectHost()
 {
+	if ( g_Nepenthes->getSocketMgr()->allowOutbound() == false )
+	{
+		string rhost = inet_ntoa(* (in_addr *)&m_RemoteHost);
+		logInfo("Outgoing connection disabled, not connecting to %s:%i (%s)\n", rhost.c_str(), m_RemotePort, "tcp");
+		m_Socket = -1;
+		m_Status = SS_CLOSED;
+		return true;
+	}
 	string localhost, remotehost;
 	localhost = inet_ntoa(* (in_addr *)&m_LocalHost);
 	remotehost = inet_ntoa(* (in_addr *)&m_RemoteHost);

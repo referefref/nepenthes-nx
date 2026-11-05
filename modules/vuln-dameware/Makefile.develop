@@ -6,7 +6,7 @@ MODNAME = $(shell basename `pwd`)
 
 CXX = g++
 
-CXXFLAGS += -I../../nepenthes-core/include -I../../nepenthes-core/src -pipe -D _GNU_SOURCE -Wall -Werror
+CXXFLAGS += -I../../nepenthes-core/include -I../../nepenthes-core/src -pipe -D _GNU_SOURCE -Wall
 LDFLAGS = -shared -lpcre
 
 ifndef NDEBUG

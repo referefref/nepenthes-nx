@@ -39,6 +39,8 @@
 #endif
 
 #include <stdint.h>
+#include <sys/types.h>
+#include <time.h>
 #include <string>
 
 typedef unsigned char byte;

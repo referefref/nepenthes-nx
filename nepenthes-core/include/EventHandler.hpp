@@ -40,6 +40,7 @@
 #include <list>
 #include <string>
 #include <stdint.h>
+#include <time.h>
 
 #ifdef WIN32
 #include <time.h>

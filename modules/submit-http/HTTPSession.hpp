@@ -29,7 +29,6 @@
  /* $Id$ */
  
 #include <curl/curl.h>
-#include <curl/types.h>
 
 #include "Download.hpp"
 

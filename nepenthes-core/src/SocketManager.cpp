@@ -88,6 +88,7 @@ SocketManager::SocketManager(Nepenthes *nepenthes)
 	m_Nepenthes = nepenthes;
     m_UseRawSockets = false;
 	m_BindAddress = INADDR_ANY;
+	m_AllowOutbound = false;
 }
 
 /**
@@ -108,6 +109,18 @@ SocketManager::~SocketManager()
  */
 bool  SocketManager::Init()
 {
+	// nepenthes-nx: outgoing connections (connect-back shells, downloads, submissions,
+	// IRC logging) are refused unless nepenthes.socketmanager.allow_outbound is "1"
+	m_AllowOutbound = false;
+	try
+	{
+		if ( m_Nepenthes->getConfig()->getValInt("nepenthes.socketmanager.allow_outbound") == 1 )
+			m_AllowOutbound = true;
+	} catch ( ... )
+	{
+		logInfo("nepenthes.socketmanager.allow_outbound not set, outgoing connections are disabled\n");
+	}
+	logInfo("Outgoing connections are %s\n", m_AllowOutbound ? "allowed" : "disabled (allow_outbound = 0)");
 	try {
 		string bindAddressString = m_Nepenthes->getConfig()->getValString("nepenthes.socketmanager.bind_address");
 		
